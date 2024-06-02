@@ -101,16 +101,17 @@ const startGame = () => {
     directionName = "right";
     score = 0;
     document.getElementById("score").innerText = score;
+
     const rocks = document.querySelectorAll(".rock");
     for (let rock of rocks) {
         rock.parentElement.removeChild(rock);
     }
 
-    // Remove all food from the board
     const foods = document.querySelectorAll(".food");
     for (let food of foods) {
         food.parentElement.removeChild(food);
     }
+
     generateFood();
     updateSnake();
     gameStart = true;
