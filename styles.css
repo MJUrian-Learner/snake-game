@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.board-container {
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    grid-template-rows: repeat(25, 1fr);
+    border: 1px solid white;
+    min-width: 500px;
+    width: 500px;
+    height: 500px;
+}
+
+.box {
+    background-color: black;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.food {
+    width: 100%;
+    height: 100%;
+    /* 
+    background-image: url(./apple-svgrepo-com.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    aspect-ratio: 1/1; */
+    background-color: red;
+    border-radius: 50%;
+}
+
+.rock {
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    border-radius: 50%;
+}
+
+.snake {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+.snake-head {
+    background-color: yellow;
+}
+
+.snake-head.head-right {
+    border-radius: 0px 50px 50px 0px;
+}
+
+.snake-head.head-left {
+    border-radius: 50px 0px 0px 50px;
+}
+
+.snake-head.head-up {
+    border-radius: 50px 50px 0px 0px;
+}
+
+.snake-head.head-down {
+    border-radius: 0px 0px 50px 50px;
+}
