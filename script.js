@@ -10,7 +10,10 @@ let boxes = []; // Initialize boxes as an empty array
 let rockInterval;
 let gameInterval;
 let wall = false;
+let isRocks = false;
 let score = 0;
+let foodIndex;
+let rockTimeout;
 
 const generateBoxes = (numBoxes) => {
     for (let i = 0; i < numBoxes; i++) {
@@ -44,6 +47,7 @@ const generateFood = () => {
 
     // Add the food to the random box
     boxes[randomIndex].appendChild(food);
+    foodIndex = randomIndex;
 };
 
 const generateRock = () => {
@@ -51,7 +55,7 @@ const generateRock = () => {
     const randomIndex = Math.floor(Math.random() * boxes.length);
 
     // Ensures that rock will not be generated on the snake
-    if (snake.includes(randomIndex)) {
+    if (snake.includes(randomIndex) || foodIndex === randomIndex) {
         generateRock();
         return;
     }
@@ -71,7 +75,7 @@ const generateRock = () => {
     boxes[randomIndex].appendChild(rock);
 };
 
-const updateSnake = () => {
+const makeSnake = () => {
     // Remove the snake class from all boxes
     boxes.forEach((box) => {
         const snakeBody = box.querySelector(".snake");
@@ -96,6 +100,7 @@ const updateSnake = () => {
 
 const startGame = () => {
     console.log("Game started");
+    console.log(isRocks);
     snake = [2, 1, 0]; // Snake starting position
     direction = 1;
     directionName = "right";
@@ -113,81 +118,29 @@ const startGame = () => {
     }
 
     generateFood();
-    updateSnake();
+    makeSnake();
     gameStart = true;
     gameOver = false;
-
-    // Clear any existing intervals before setting new ones
-    clearInterval(gameInterval);
-    clearInterval(rockInterval);
 
     gameInterval = setInterval(runGame, 70);
 
     // Wait for 5 seconds before starting to generate rocks
-    rockInterval = setTimeout(() => {
-        rockInterval = setInterval(() => {
-            for (let i = 0; i < 5; i++) {
-                generateRock();
-            }
-        }, 7000);
-    }, 5000);
+    if (isRocks) {
+        rockTimeout = setTimeout(() => {
+            rockInterval = setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(function () {
+                        generateRock();
+                    }, i * 200);
+                }
+            }, 3000);
+        }, 2000);
+    }
 
     startButton.disabled = true;
     wallButton.disabled = true;
+    rockButton.disabled = true;
 };
-
-const stopGame = () => {
-    clearInterval(gameInterval);
-    clearInterval(rockInterval);
-    alert("Game Over! The snake has collided with itself.");
-    gameOver = true;
-
-    startButton.disabled = false;
-    wallButton.disabled = false;
-};
-
-const startButton = document.getElementById("start-button");
-startButton.addEventListener("click", function () {
-    startGame();
-});
-
-const wallButton = document.getElementById("wall-button");
-wallButton.addEventListener("click", () => {
-    wall = !wall;
-    if (wall) {
-        document.getElementById("wall-button").innerText = "Turn off wall";
-    } else {
-        document.getElementById("wall-button").innerText = "Turn on wall";
-    }
-});
-
-// Listen for keydown events
-window.addEventListener("keydown", (e) => {
-    if (directionLock || gameOver || !gameStart) return;
-
-    // Update direction and directionName based on the key pressed
-    if (e.key === "ArrowUp" && direction !== boardWidth) {
-        direction = -boardWidth; // Up
-        directionName = "up";
-    } else if (e.key === "ArrowDown" && direction !== -boardWidth) {
-        direction = boardWidth; // Down
-        directionName = "down";
-    } else if (e.key === "ArrowLeft" && direction !== 1) {
-        direction = -1; // Left
-        directionName = "left";
-    } else if (e.key === "ArrowRight" && direction !== -1) {
-        direction = 1; // Right
-        directionName = "right";
-    } else if (e.key === "r") {
-        stopGame();
-        startGame();
-    }
-
-    directionLock = true;
-});
-
-// Initialize the game board and snake
-generateBoxes(boardWidth * boardWidth);
 
 const runGame = () => {
     if (gameOver) return;
@@ -217,12 +170,12 @@ const runGame = () => {
             (direction === 1 && snake[0] % boardWidth === boardWidth - 1) ||
             (direction === -1 && snake[0] % boardWidth === 0)
         ) {
-            stopGame();
+            stopGame("wall");
             return;
         }
     }
     if (snake.includes(newHead)) {
-        stopGame();
+        stopGame("eaten");
         return;
     }
 
@@ -233,7 +186,7 @@ const runGame = () => {
         generateFood();
         snake.unshift(newHead);
     } else if (boxes[newHead].querySelector(".rock")) {
-        stopGame();
+        stopGame("rock");
         return;
     } else {
         snake.pop();
@@ -241,8 +194,90 @@ const runGame = () => {
     }
 
     // Update the snake on the board
-    updateSnake();
+    makeSnake();
 
     // Unlock the direction change
     directionLock = false;
 };
+
+const stopGame = (status) => {
+    clearTimeout(rockTimeout);
+    clearInterval(gameInterval);
+    clearInterval(rockInterval);
+    switch (status) {
+        case "eaten":
+            Swal.fire("You ate yourself! Game over!", "", "error");
+            break;
+        case "wall":
+            Swal.fire("You hit the wall! Game over!", "", "error");
+            break;
+        case "rock":
+            Swal.fire("You hit the rock! Game over!", "", "error");
+            break;
+        case "restart":
+            Swal.fire("Game ended!", "", "info");
+            break;
+    }
+    gameOver = true;
+
+    startButton.disabled = false;
+    wallButton.disabled = false;
+    rockButton.disabled = false;
+};
+
+const startButton = document.getElementById("start-button");
+startButton.addEventListener("click", function () {
+    startGame();
+});
+
+const wallButton = document.getElementById("wall-button");
+wallButton.addEventListener("click", () => {
+    wall = !wall;
+    if (wall) {
+        document.getElementById("board").classList.add("wall");
+        document.getElementById("wall-button").classList.add("active-btn");
+    } else {
+        document.getElementById("board").classList.remove("wall");
+        document.getElementById("wall-button").classList.remove("active-btn");
+    }
+});
+
+const rockButton = document.getElementById("rock-button");
+rockButton.addEventListener("click", () => {
+    isRocks = !isRocks;
+    if (isRocks) {
+        document.getElementById("rock-button").classList.add("active-btn");
+    } else {
+        document.getElementById("rock-button").classList.remove("active-btn");
+    }
+});
+
+// Listen for keydown events
+window.addEventListener("keydown", (e) => {
+    if (directionLock || gameOver || !gameStart) return;
+
+    // Update direction and directionName based on the key pressed
+    if ((e.key === "ArrowUp" || e.key === "w") && direction !== boardWidth) {
+        direction = -boardWidth; // Up
+        directionName = "up";
+    } else if (
+        (e.key === "ArrowDown" || e.key === "s") &&
+        direction !== -boardWidth
+    ) {
+        direction = boardWidth; // Down
+        directionName = "down";
+    } else if ((e.key === "ArrowLeft" || e.key === "a") && direction !== 1) {
+        direction = -1; // Left
+        directionName = "left";
+    } else if ((e.key === "ArrowRight" || e.key === "d") && direction !== -1) {
+        direction = 1; // Right
+        directionName = "right";
+    } else if (e.key === "r") {
+        stopGame("restart");
+    }
+
+    directionLock = true;
+});
+
+// Initialize the game board and snake
+generateBoxes(boardWidth * boardWidth);

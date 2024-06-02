@@ -1,42 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 * {
     margin: 0;
     padding: 0;
 }
 
+.button {
+    font-family: "Press Start 2P", cursive;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.active-btn {
+    box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 1);
+}
+#start-button {
+    background-color: rgb(255, 75, 75);
+    color: white;
+}
+
+#start-button:disabled {
+    background-color: rgba(255, 75, 75, 0.562);
+    color: rgba(255, 255, 255, 0.432);
+}
+
 .container {
+    font-family: "Press Start 2P", cursive;
     display: flex;
+    color: white;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #161616;
 }
 
 .board-container {
+    margin: 20px 0px 50px 0px;
     display: grid;
-    grid-template-columns: repeat(25, 1fr);
-    grid-template-rows: repeat(25, 1fr);
-    border: 1px solid white;
-    min-width: 500px;
-    width: 500px;
-    height: 500px;
+    grid-template-columns: repeat(25, 25px);
+    grid-template-rows: repeat(25, 25px);
+    min-width: auto;
+    width: auto;
+    height: auto;
+    box-shadow: 0px 0px 40px 10px rgba(255, 255, 255, 0.192);
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: rgb(255, 75, 75);
+    letter-spacing: 5px;
+}
+
+.wall {
+    border: 5px solid red;
+}
+
+/* When the window is 600px or less, change the size of the grid cells */
+@media (max-width: 750px) {
+    .board-container {
+        grid-template-columns: repeat(25, 20px);
+        grid-template-rows: repeat(25, 20px);
+    }
+}
+
+/* When the window is 400px or less, change the size of the grid cells */
+@media (max-width: 500px) {
+    .board-container {
+        grid-template-columns: repeat(25, 15px);
+        grid-template-rows: repeat(25, 15px);
+    }
+}
+
+@media (max-width: 375px) {
+    .board-container {
+        grid-template-columns: repeat(25, 12px);
+        grid-template-rows: repeat(25, 12px);
+    }
 }
 
 .box {
     background-color: black;
-    transition: background-color 0.1s ease-in-out;
 }
 
 .food {
     width: 100%;
     height: 100%;
-    /* 
-    background-image: url(./apple-svgrepo-com.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    aspect-ratio: 1/1; */
     background-color: red;
     border-radius: 50%;
+    transition: background-color 0.3s ease-in;
 }
 
 .rock {
@@ -44,12 +104,14 @@
     height: 100%;
     background-color: gray;
     border-radius: 50%;
+    transition: background-color 0.3s ease-in;
 }
 
 .snake {
     width: 100%;
     height: 100%;
     background-color: green;
+    transition: background-color 0.3s ease-in;
 }
 .snake-head {
     background-color: yellow;
