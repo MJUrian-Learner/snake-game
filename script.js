@@ -1,46 +1,28 @@
 const boardContainer = document.querySelector(".board-container");
+const boardWidth = 25;
+
 let snake = [];
+let boxes = [];
+let score = 0;
+let foodIndex;
+
 let direction;
 let directionName;
 let directionLock = false;
-const boardWidth = 25; // Assuming the board width is 25 boxes
-let gameStart = false;
-let gameOver = false;
-let boxes = []; // Initialize boxes as an empty array
-let rockInterval;
-let gameInterval;
+
 let wall = false;
 let isRocks = false;
-let score = 0;
-let foodIndex;
+
+let gameOver = false;
+let rockInterval;
+let gameInterval;
 let rockTimeout;
 
 // Initialize colors
 let snakeHeadColor = "#ff0000";
 let snakeBodyColor = "#00ff00";
 
-// Listen for color picker changes
-document.getElementById("snake-head-color").addEventListener("input", (e) => {
-    snakeHeadColor = e.target.value;
-    updateSnakeColors();
-});
-
-document.getElementById("snake-body-color").addEventListener("input", (e) => {
-    snakeBodyColor = e.target.value;
-    updateSnakeColors();
-});
-
 // Update snake colors dynamically
-const updateSnakeColors = () => {
-    document.querySelectorAll(".snake-head").forEach((head) => {
-        head.style.backgroundColor = snakeHeadColor;
-    });
-    document.querySelectorAll(".snake").forEach((body) => {
-        if (!body.classList.contains("snake-head")) {
-            body.style.backgroundColor = snakeBodyColor;
-        }
-    });
-};
 
 const generateBoxes = (numBoxes) => {
     for (let i = 0; i < numBoxes; i++) {
@@ -128,9 +110,20 @@ const makeSnake = () => {
     });
 };
 
+const updateSnakeColors = () => {
+    document.querySelectorAll(".snake-head").forEach((head) => {
+        head.style.backgroundColor = snakeHeadColor;
+    });
+    document.querySelectorAll(".snake").forEach((body) => {
+        if (!body.classList.contains("snake-head")) {
+            body.style.backgroundColor = snakeBodyColor;
+        }
+    });
+};
+
 const startGame = () => {
     console.log("Game started");
-    console.log(isRocks);
+
     snake = [2, 1, 0]; // Snake starting position
     direction = 1;
     directionName = "right";
@@ -149,12 +142,11 @@ const startGame = () => {
 
     generateFood();
     makeSnake();
-    gameStart = true;
     gameOver = false;
 
     gameInterval = setInterval(runGame, 70);
 
-    // Wait for 5 seconds before starting to generate rocks
+    // Wait for 2 seconds before starting to generate rocks
     if (isRocks) {
         rockTimeout = setTimeout(() => {
             rockInterval = setInterval(() => {
@@ -173,7 +165,10 @@ const startGame = () => {
 };
 
 const runGame = () => {
-    if (gameOver) return;
+    if (gameOver) {
+        stopGame("esc");
+        return;
+    }
 
     // Calculate the new head position
     let newHead = snake[0] + direction;
@@ -244,7 +239,7 @@ const stopGame = (status) => {
         case "rock":
             Swal.fire("You hit the rock! Game over!", "", "error");
             break;
-        case "restart":
+        case "esc":
             Swal.fire("Game ended!", "", "info");
             break;
     }
@@ -254,6 +249,34 @@ const stopGame = (status) => {
     wallButton.disabled = false;
     rockButton.disabled = false;
 };
+
+const showTab = (tabId) => {
+    const contents = document.querySelectorAll(".tab-content");
+    const buttons = document.querySelectorAll(".tab-button");
+
+    contents.forEach((content) => {
+        content.classList.remove("active");
+    });
+
+    buttons.forEach((button) => {
+        button.classList.remove("active-btn");
+    });
+
+    document.getElementById(tabId).classList.add("active");
+    document
+        .querySelector(`[onclick="showTab('${tabId}')"]`)
+        .classList.add("active-btn");
+};
+
+document.getElementById("snake-head-color").addEventListener("input", (e) => {
+    snakeHeadColor = e.target.value;
+    updateSnakeColors();
+});
+
+document.getElementById("snake-body-color").addEventListener("input", (e) => {
+    snakeBodyColor = e.target.value;
+    updateSnakeColors();
+});
 
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function () {
@@ -284,7 +307,7 @@ rockButton.addEventListener("click", () => {
 
 // Listen for keydown events
 window.addEventListener("keydown", (e) => {
-    if (directionLock || gameOver || !gameStart) return;
+    if (directionLock || gameOver) return;
 
     // Update direction and directionName based on the key pressed
     if ((e.key === "ArrowUp" || e.key === "w") && direction !== boardWidth) {
@@ -302,8 +325,10 @@ window.addEventListener("keydown", (e) => {
     } else if ((e.key === "ArrowRight" || e.key === "d") && direction !== -1) {
         direction = 1; // Right
         directionName = "right";
-    } else if (e.key === "r") {
-        stopGame("restart");
+    } else if (e.key === "Enter") {
+        startGame();
+    } else if (e.key === "Escape" || e.key === "r") {
+        stopGame("esc");
     }
 
     directionLock = true;
@@ -311,21 +336,3 @@ window.addEventListener("keydown", (e) => {
 
 // Initialize the game board and snake
 generateBoxes(boardWidth * boardWidth);
-
-function showTab(tabId) {
-    const contents = document.querySelectorAll(".tab-content");
-    const buttons = document.querySelectorAll(".tab-button");
-
-    contents.forEach((content) => {
-        content.classList.remove("active");
-    });
-
-    buttons.forEach((button) => {
-        button.classList.remove("active-btn");
-    });
-
-    document.getElementById(tabId).classList.add("active");
-    document
-        .querySelector(`[onclick="showTab('${tabId}')"]`)
-        .classList.add("active-btn");
-}
