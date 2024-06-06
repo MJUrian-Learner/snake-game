@@ -32,10 +32,10 @@ document.getElementById("snake-body-color").addEventListener("input", (e) => {
 
 // Update snake colors dynamically
 const updateSnakeColors = () => {
-    document.querySelectorAll(".snake-head").forEach(head => {
+    document.querySelectorAll(".snake-head").forEach((head) => {
         head.style.backgroundColor = snakeHeadColor;
     });
-    document.querySelectorAll(".snake").forEach(body => {
+    document.querySelectorAll(".snake").forEach((body) => {
         if (!body.classList.contains("snake-head")) {
             body.style.backgroundColor = snakeBodyColor;
         }
@@ -313,17 +313,19 @@ window.addEventListener("keydown", (e) => {
 generateBoxes(boardWidth * boardWidth);
 
 function showTab(tabId) {
-    const contents = document.querySelectorAll('.tab-content');
-    const buttons = document.querySelectorAll('.tab-button');
-    
-    contents.forEach(content => {
-        content.classList.remove('active');
+    const contents = document.querySelectorAll(".tab-content");
+    const buttons = document.querySelectorAll(".tab-button");
+
+    contents.forEach((content) => {
+        content.classList.remove("active");
     });
-    
-    buttons.forEach(button => {
-        button.classList.remove('active-btn');
+
+    buttons.forEach((button) => {
+        button.classList.remove("active-btn");
     });
-    
-    document.getElementById(tabId).classList.add('active');
-    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active-btn');
+
+    document.getElementById(tabId).classList.add("active");
+    document
+        .querySelector(`[onclick="showTab('${tabId}')"]`)
+        .classList.add("active-btn");
 }

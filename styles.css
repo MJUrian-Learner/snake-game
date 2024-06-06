@@ -13,7 +13,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 4px 15px;
     cursor: pointer;
     border-radius: 5px;
 }
@@ -43,6 +43,23 @@
     background-color: #161616;
 }
 
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-content {
+    flex: 1;
+    margin: 20px;
+    max-height: 550px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .board-container {
     margin: 20px 0px 50px 0px;
     display: grid;
@@ -136,18 +153,12 @@
 }
 
 .did-you-know {
-    width: 500px;
     background-color: beige;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-    margin-top: 150px;
-    position: fixed;
-    top: 20px;
-    left: 55px;
-    right: 1300px;
     border-radius: 8px;
     transition: all 0.3s ease;
+    color: black;
 }
 
 .did-you-know:hover {
@@ -156,20 +167,16 @@
 
 .tabs {
     display: flex;
-    justify-content: space-around;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
 .tab-button {
-    background: #f51616;
+    background-color: rgb(255, 75, 75);
+    color: white;
     border: none;
-    padding: 10px;
     cursor: pointer;
     font-size: 16px;
-    color: antiquewhite;
-    transition: background 0.3s ease;
-    border-radius: 25px;
 }
 
 .tab-content {
@@ -188,37 +195,51 @@
 }
 
 .did-you-know p {
-    font-family: 'Helvetica', sans-serif;
+    font-family: "Helvetica", sans-serif;
     margin: 10px 0 0;
     font-size: 24px;
     line-height: 1.5;
     text-align: justify;
 }
 
-
 .custom-color {
     font-family: "Press Start 2P", cursive;
     font-size: 24px;
-    position: fixed;
-    top: 400px;
-    right: 20px;
-    transform: translateY(-50%);
-    margin-right: 200px;
-    margin-bottom: 200px;
+    width: 200px;
     color: beige;
+}
+
+.custom-color p {
+    text-align: center;
+}
+
+.color-picker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.color-picker-container-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
 }
 
 .color-picker-label {
     display: block;
     font-size: 20px;
     font-family: "Press Start 2P", cursive;
-    margin: 10px;
-    margin-top: 30px;
+    margin-bottom: 10px;
     color: white;
 }
 
-.color-picker {
-    margin-left: 10px;
-    margin-bottom: 5px;
+.middle-content {
+    text-align: center;
 }
 
+.content {
+    max-height: 300px; /* Adjust this value as needed */
+    overflow-y: auto;
+}
