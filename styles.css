@@ -21,6 +21,7 @@
 .active-btn {
     box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 1);
 }
+
 #start-button {
     background-color: rgb(255, 75, 75);
     color: white;
@@ -113,6 +114,7 @@
     background-color: green;
     transition: background-color 0.3s ease-in;
 }
+
 .snake-head {
     background-color: yellow;
 }
@@ -132,3 +134,91 @@
 .snake-head.head-down {
     border-radius: 0px 0px 50px 50px;
 }
+
+.did-you-know {
+    width: 500px;
+    background-color: beige;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    margin-top: 150px;
+    position: fixed;
+    top: 20px;
+    left: 55px;
+    right: 1300px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.did-you-know:hover {
+    box-shadow: 0 8px 16px rgba(166, 255, 144, 0.726);
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.tab-button {
+    background: #f51616;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: antiquewhite;
+    transition: background 0.3s ease;
+    border-radius: 25px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.did-you-know h2 {
+    font-family: "Press Start 2P", cursive;
+    margin-bottom: 30px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.did-you-know p {
+    font-family: 'Helvetica', sans-serif;
+    margin: 10px 0 0;
+    font-size: 24px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+
+.custom-color {
+    font-family: "Press Start 2P", cursive;
+    font-size: 24px;
+    position: fixed;
+    top: 400px;
+    right: 20px;
+    transform: translateY(-50%);
+    margin-right: 200px;
+    margin-bottom: 200px;
+    color: beige;
+}
+
+.color-picker-label {
+    display: block;
+    font-size: 20px;
+    font-family: "Press Start 2P", cursive;
+    margin: 10px;
+    margin-top: 30px;
+    color: white;
+}
+
+.color-picker {
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+

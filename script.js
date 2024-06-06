@@ -15,6 +15,33 @@ let score = 0;
 let foodIndex;
 let rockTimeout;
 
+// Initialize colors
+let snakeHeadColor = "#ff0000";
+let snakeBodyColor = "#00ff00";
+
+// Listen for color picker changes
+document.getElementById("snake-head-color").addEventListener("input", (e) => {
+    snakeHeadColor = e.target.value;
+    updateSnakeColors();
+});
+
+document.getElementById("snake-body-color").addEventListener("input", (e) => {
+    snakeBodyColor = e.target.value;
+    updateSnakeColors();
+});
+
+// Update snake colors dynamically
+const updateSnakeColors = () => {
+    document.querySelectorAll(".snake-head").forEach(head => {
+        head.style.backgroundColor = snakeHeadColor;
+    });
+    document.querySelectorAll(".snake").forEach(body => {
+        if (!body.classList.contains("snake-head")) {
+            body.style.backgroundColor = snakeBodyColor;
+        }
+    });
+};
+
 const generateBoxes = (numBoxes) => {
     for (let i = 0; i < numBoxes; i++) {
         const box = document.createElement("div");
@@ -92,6 +119,9 @@ const makeSnake = () => {
         if (index === 0) {
             snakeBody.classList.add("snake-head");
             snakeBody.classList.add(`head-${directionName}`);
+            snakeBody.style.backgroundColor = snakeHeadColor; // Apply head color
+        } else {
+            snakeBody.style.backgroundColor = snakeBodyColor; // Apply body color
         }
 
         boxes[element].appendChild(snakeBody);
@@ -281,3 +311,19 @@ window.addEventListener("keydown", (e) => {
 
 // Initialize the game board and snake
 generateBoxes(boardWidth * boardWidth);
+
+function showTab(tabId) {
+    const contents = document.querySelectorAll('.tab-content');
+    const buttons = document.querySelectorAll('.tab-button');
+    
+    contents.forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    buttons.forEach(button => {
+        button.classList.remove('active-btn');
+    });
+    
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active-btn');
+}

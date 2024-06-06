@@ -1,28 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <link rel="stylesheet" href="styles.css" />
-        <title>My Web Page</title>
-    </head>
-    <body>
-        <div class="container">
-            <div>
-                <h1 class="title">Snake Game</h1>
-            </div>
-            <div>
-                <h1>Score: <span id="score">0</span></h1>
-            </div>
-            <div class="board-container" id="board"></div>
-            <div>
-                <button id="start-button" class="button">Start</button>
-                <button id="wall-button" class="button">Wall</button>
-                <button id="rock-button" class="button">Rocks</button>
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Snake Game</title>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1 class="title">Snake Game</h1>
+        </div>
+        <div>
+            <h1>Score: <span id="score">0</span></h1>
+        </div>
+        <div class="board-container" id="board"></div>
+        <div>
+            <button id="start-button" class="button">Start</button>
+            <button id="wall-button" class="button">Wall</button>
+            <button id="rock-button" class="button">Rocks</button>
+        </div>
+    </div>
+
+        <div class="custom-color">
+            <p>SNAKE COLOR</p>
+            <label for="snake-head-color" class="color-picker-label">HEAD</label>
+            <input type="color" id="snake-head-color" class="color-picker" value="#ff0000">
+            <label for="snake-body-color" class="color-picker-label">BODY</label>
+            <input type="color" id="snake-body-color" class="color-picker" value="#008000">
         </div>
 
-        <script src="script.js"></script>
-    </body>
+    <div class="did-you-know">
+        <div id="did-you-know-content" class="tab-content active">
+            <h2>DID YOU KNOW?</h2>
+            <p>Although popularized by Nokia, the Snake Game was first created in 1976 by Gremlin Interactive,
+            a game development company, as a video game named <strong>Blockage.</strong> 
+            It was supposed to be a black-and-white arcade game meant to be played by two players.</p>
+        </div>
+        <div id="instructions-content" class="tab-content">
+            <h2>HOW TO PLAY?</h2>
+            <p>Use the arrow keys to move the snake and eat the food to grow longer. Avoid eating yourself!</p>
+            <p><strong>Make use of the following features for a more challenging gameplay:</strong></p>
+            <p><strong>WALL</strong> - You cannot touch the walls anymore, doing so means game over for you.</p>
+            <p><strong>ROCKS</strong> - Spawns a rocky terrain, watch your head!</p>
+        </div>
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('did-you-know-content')"><strong>Did You Know?</strong></button>
+            <button class="tab-button" onclick="showTab('instructions-content')"><strong>Instructions</strong></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
